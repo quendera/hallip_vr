@@ -1,0 +1,159 @@
+[gd_scene load_steps=10 format=3 uid="uid://dnod24iguvyqa"]
+
+[ext_resource type="Script" path="res://Node3D.gd" id="1_ud1ky"]
+[ext_resource type="AudioStream" uid="uid://cvgu3r264mp74" path="res://assets/sounds/noise-white-10vu.wav" id="2_lerr7"]
+[ext_resource type="AudioStream" uid="uid://dhlntrek6h1ov" path="res://assets/sounds/sweep_100_200Hz.wav" id="3_01q24"]
+[ext_resource type="Texture2D" uid="uid://cy0drn5aymvuk" path="res://assets/speaker.png" id="4_w6ist"]
+[ext_resource type="Texture2D" uid="uid://bytjtcapc4m7" path="res://assets/speaker_yellow.png" id="5_i6biw"]
+
+[sub_resource type="Environment" id="Environment_47wdh"]
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_vne76"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rvm4k"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_37lm8"]
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_ud1ky")
+
+[node name="noise" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_lerr7")
+
+[node name="tone" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_01q24")
+volume_db = 0.763
+
+[node name="answer_timer" type="Timer" parent="."]
+
+[node name="trial_timer" type="Timer" parent="."]
+
+[node name="confidence_timer" type="Timer" parent="."]
+
+[node name="feedback_timer" type="Timer" parent="."]
+
+[node name="tone_timer" type="Timer" parent="."]
+
+[node name="iti_timer" type="Timer" parent="."]
+
+[node name="continue_timer" type="Timer" parent="."]
+
+[node name="end_timer" type="Timer" parent="."]
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+
+[node name="gaze" type="CSGPolygon3D" parent="XROrigin3D/XRCamera3D"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -0.075, -0.05, -5.874)
+
+[node name="camera_label" type="Label3D" parent="XROrigin3D/XRCamera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.18077, 0, -4.44192)
+
+[node name="left_hand" type="XRController3D" parent="XROrigin3D"]
+tracker = &"left_hand"
+
+[node name="right_hand" type="XRController3D" parent="XROrigin3D"]
+tracker = &"right_hand"
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.993369, 0.114972, 0, -0.114972, 0.993369, 0, 0.394182, 0.727494)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_47wdh")
+camera_attributes = SubResource("CameraAttributesPractical_vne76")
+
+[node name="instructions" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00791597, 0.241831, -7.47227)
+text = "Welcome! You are about to participate in an experiment.
+
+You control a white square by moving your head. To answer yes or no you can move that square towards one or the other and pressing the trigger. You can indicate your confidence by selecting a point on the confidence bar and pressing the trigger. 
+
+Your goal is to detect when a sound is playing or not, you will receive points for each correct answer.
+
+If at any point you wish to stop the experiment, you can remove the headset or raise your arms, we will come help. 
+If you have any questions, please ask them now. 
+
+Press the trigger to start"
+autowrap_mode = 2
+width = 900.0
+
+[node name="confidence" type="Node3D" parent="."]
+transform = Transform3D(0.0758783, 0, 0, 0, 0.444107, 0, 0, 0, 0.422944, -2.756, -0.276176, -6.05485)
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="confidence"]
+transform = Transform3D(60, 0, 0, 0, 0.315, 0, 0, 0, 0.9, 8, 0.45, 0)
+polygon = PackedVector2Array(0, 0, 0, 1, 0.941826, 1.05128, 0.940547, 0.00370875)
+material = SubResource("StandardMaterial3D_rvm4k")
+
+[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="confidence"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.999999, 64.2112, 0.131524, -0.0101013)
+material = SubResource("StandardMaterial3D_rvm4k")
+
+[node name="CSGPolygon3D3" type="CSGPolygon3D" parent="confidence"]
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999998, 7.43737, 0.16736, -0.0129881)
+material = SubResource("StandardMaterial3D_rvm4k")
+
+[node name="slider" type="CSGPolygon3D" parent="confidence"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64.2283, 0.216389, 0)
+material = SubResource("StandardMaterial3D_37lm8")
+
+[node name="not_conf" type="Label3D" parent="confidence"]
+transform = Transform3D(13.179, 0, 0, 0, 2.25171, 0, 0, 0, 2.36438, 0, 1.3, 0)
+text = "NOT CONFIDENT"
+
+[node name="conf" type="Label3D" parent="confidence"]
+transform = Transform3D(13.179, 0, 0, 0, 2.25171, 0, 0, 0, 2.36438, 76, 1.3, 0)
+text = "CONFIDENT"
+
+[node name="conf_text" type="Label3D" parent="confidence"]
+transform = Transform3D(1, 0, 0, 0, 0.2, 0, 0, 0, 1, 36.1185, 2.03587, -0.482503)
+text = "How confident are you?"
+font_size = 500
+
+[node name="answer" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+
+[node name="no" type="Label3D" parent="answer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+
+[node name="yes" type="Label3D" parent="answer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.75, 0)
+
+[node name="answer_text" type="Label3D" parent="answer"]
+text = "Did you hear a tone?"
+
+[node name="Tone_logo" type="Sprite3D" parent="."]
+transform = Transform3D(0.0443746, 0, 0, 0, 0.0443746, 0, 0, 0, 0.0443746, 0, -0.00159025, -6.27)
+visible = false
+modulate = Color(0.992157, 0.992157, 0.992157, 1)
+texture = ExtResource("4_w6ist")
+
+[node name="Tone_logo_yellow" type="Sprite3D" parent="."]
+transform = Transform3D(0.0443746, 0, 0, 0, 0.0443746, 0, 0, 0, 0.0443746, 0, -0.00159025, -6.27)
+visible = false
+modulate = Color(0.992157, 0.992157, 0.992157, 1)
+texture = ExtResource("5_i6biw")
+
+[node name="continue_text" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7.375)
+text = "look here and click to continue"
+
+[node name="score_text" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+
+[node name="participant_id" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9601, 2.61058, -7.49951)
+text = "jhkh"
+
+[connection signal="timeout" from="answer_timer" to="." method="_on_answer_timer_timeout"]
+[connection signal="timeout" from="trial_timer" to="." method="_on_trial_timer_timeout"]
+[connection signal="timeout" from="confidence_timer" to="." method="_on_confidence_timer_timeout"]
+[connection signal="timeout" from="feedback_timer" to="." method="_on_feedback_timer_timeout"]
+[connection signal="timeout" from="iti_timer" to="." method="_on_iti_timer_timeout"]
+[connection signal="timeout" from="continue_timer" to="." method="_on_continue_timer_timeout"]
+[connection signal="timeout" from="end_timer" to="." method="_on_end_timer_timeout"]
+[connection signal="button_pressed" from="XROrigin3D/left_hand" to="." method="_on_left_hand_button_pressed"]
+[connection signal="button_pressed" from="XROrigin3D/right_hand" to="." method="_on_right_hand_button_pressed"]
+[connection signal="input_vector2_changed" from="XROrigin3D/right_hand" to="." method="_on_right_hand_input_vector_2_changed"]
